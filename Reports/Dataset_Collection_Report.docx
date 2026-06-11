@@ -1,0 +1,9 @@
+Dataset Name: Fake and Real News Dataset
+Source: Kaggle
+Fake Dataset: Fake.csv (~23,500 records)
+Real Dataset: True.csv (~21,400 records)
+Features:
+          title
+          text
+          subject
+          date
