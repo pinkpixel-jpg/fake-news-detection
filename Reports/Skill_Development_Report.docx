@@ -1,0 +1,40 @@
+1. Python Skills
+Variables
+Data Types
+Loops
+Functions
+File Handling
+
+2. Pandas
+Reading CSV files
+DataFrames
+Data Cleaning
+Handling Missing Values
+
+3. NLP Concepts
+Tokenization
+Stopword Removal
+Stemming
+Lemmatization
+TF-IDF Vectorization
+
+4. Machine Learning Concepts
+Classification
+Training Data
+Testing Data
+Accuracy
+Confusion Matrix
+
+5. Algorithms Studied
+Logistic Regression
+Naive Bayes
+Random Forest
+
+
+
+Resources Used:
+Python Documentation
+Pandas Documentation
+Scikit-learn Documentation
+NLTK Documentation
+Kaggle
