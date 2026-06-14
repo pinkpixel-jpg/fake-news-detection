@@ -22,8 +22,8 @@ app = FastAPI(
     description="A professional website for fake news classification using a baseline model and BERT.",
 )
 
-templates = Jinja2Templates(directory=BASE_DIR / "templates")
-app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
+templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
+app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 
 baseline_model = None
 vectorizer = None
@@ -88,12 +88,22 @@ def startup_event():
     load_bert()
 
 
+@app.get("/health")
+def health():
+    """Health-check endpoint returning model readiness."""
+    return {
+        "status": "ok",
+        "baseline_ready": baseline_ready,
+        "bert_ready": bert_ready,
+    }
+
+
 @app.get("/", response_class=HTMLResponse)
 def homepage(request: Request):
     return templates.TemplateResponse(
+        request,
         "index.html",
-        {
-            "request": request,
+        context={
             "baseline_ready": baseline_ready,
             "bert_ready": bert_ready,
             "result": None,
@@ -108,9 +118,9 @@ def predict(request: Request, news_text: str = Form(...)):
     bert_result = predict_bert_text(news_text)
 
     return templates.TemplateResponse(
+        request,
         "index.html",
-        {
-            "request": request,
+        context={
             "baseline_ready": baseline_ready,
             "bert_ready": bert_ready,
             "news_text": news_text,
