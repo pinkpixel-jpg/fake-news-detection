@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fake News Detection</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <header class="page-header">
+      <div class="container">
+        <h1>Fake News Detection</h1>
+        <p>Submit an article and compare a baseline classifier with a fine-tuned BERT model.</p>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="card">
+        <h2>Enter news content</h2>
+        <form action="/predict" method="post">
+          <label for="news_text">News article text</label>
+          <textarea id="news_text" name="news_text" rows="10" required>{{ news_text or '' }}</textarea>
+          <button type="submit">Analyze News</button>
+        </form>
+      </section>
+
+      <section class="card results">
+        <h2>Prediction results</h2>
+        {% if baseline_ready or bert_ready %}
+        <div class="status">
+          <p>Baseline model ready: <strong>{{ 'Yes' if baseline_ready else 'No' }}</strong></p>
+          <p>BERT model ready: <strong>{{ 'Yes' if bert_ready else 'No' }}</strong></p>
+        </div>
+
+        {% if baseline_result is defined and baseline_result is not none %}
+        <div class="result-row">
+          <h3>Baseline prediction</h3>
+          <p class="label {{ baseline_result|lower }}">{{ baseline_result }}</p>
+        </div>
+        {% endif %}
+
+        {% if bert_result is defined and bert_result is not none %}
+        <div class="result-row">
+          <h3>BERT prediction</h3>
+          <p class="label {{ bert_result.label|lower }}">{{ bert_result.label }}</p>
+          <p class="probability">Confidence: Fake {{ '%.1f'|format(bert_result.scores[0]*100) }}% / Real {{ '%.1f'|format(bert_result.scores[1]*100) }}%</p>
+        </div>
+        {% endif %}
+
+        {% if baseline_result is not defined and bert_result is not defined %}
+        <p>Submit a news article to see predictions from both models.</p>
+        {% endif %}
+        {% else %}
+        <div class="warning-panel">
+          <p>Both models are not ready yet. Run the training scripts to build the baseline and BERT models.</p>
+          <ul>
+            <li><code>python Code/model_training.py</code></li>
+            <li><code>python Code/train_bert.py</code></li>
+          </ul>
+        </div>
+        {% endif %}
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <p>Powered by FastAPI, Hugging Face Transformers, and scikit-learn.</p>
+      </div>
+    </footer>
+  </body>
+</html>

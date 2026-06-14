@@ -1,34 +1,17 @@
 import pandas as pd
-import re
 import nltk
 
-from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
+from Code.utils import clean_text
 
-nltk.download("stopwords")
+nltk.download("stopwords", quiet=True)
 
 data = pd.read_csv("Dataset/cleaned_news.csv")
 
-ps = PorterStemmer()
+for col in ["title", "text"]:
+    data[col] = data[col].fillna("")
 
-stop_words = set(stopwords.words("english"))
-
-def preprocess(text):
-    text = str(text).lower()
-
-    text = re.sub(r'[^a-zA-Z]', ' ', text)
-
-    words = text.split()
-
-    words = [
-        ps.stem(word)
-        for word in words
-        if word not in stop_words
-    ]
-
-    return " ".join(words)
-
-data["processed_text"] = data["text"].apply(preprocess)
+combined = data["title"] + ". " + data["text"]
+data["processed_text"] = combined.apply(clean_text)
 
 data.to_csv("Dataset/processed_news.csv", index=False)
 

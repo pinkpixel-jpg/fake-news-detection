@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+jinja2
+pandas
+scikit-learn
+nltk
+transformers
+torch
+python-multipart
