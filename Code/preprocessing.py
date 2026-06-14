@@ -1,20 +1,36 @@
 import pandas as pd
+import re
+import nltk
 
-# Load merged dataset
-data = pd.read_csv("Dataset/merged_news.csv")
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
 
-print("Original Shape:", data.shape)
+nltk.download("stopwords")
 
-# Check missing values
-print("\nMissing Values:")
-print(data.isnull().sum())
+data = pd.read_csv("Dataset/cleaned_news.csv")
 
-# Remove missing values
-data = data.dropna()
+ps = PorterStemmer()
 
-print("\nShape After Removing Null Values:", data.shape)
+stop_words = set(stopwords.words("english"))
 
-# Save cleaned dataset
-data.to_csv("Dataset/cleaned_news.csv", index=False)
+def preprocess(text):
+    text = str(text).lower()
 
-print("\nCleaned dataset saved successfully!")
+    text = re.sub(r'[^a-zA-Z]', ' ', text)
+
+    words = text.split()
+
+    words = [
+        ps.stem(word)
+        for word in words
+        if word not in stop_words
+    ]
+
+    return " ".join(words)
+
+data["processed_text"] = data["text"].apply(preprocess)
+
+data.to_csv("Dataset/processed_news.csv", index=False)
+
+print("Preprocessing completed successfully!")
+print(data.columns)

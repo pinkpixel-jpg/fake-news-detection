@@ -1,0 +1,21 @@
+Fake.csv + True.csv
+          ↓
+Data Collection
+          ↓
+Data Cleaning
+          ↓
+Text Preprocessing
+          ↓
+Tokenization
+          ↓
+Stopword Removal
+          ↓
+Stemming
+          ↓
+TF-IDF Vectorization
+          ↓
+Model Training
+          ↓
+Prediction
+          ↓
+Evaluation

@@ -1,0 +1,9 @@
+Objective :To identify and remove missing values from the merged dataset.
+
+Method Used
+Loaded merged_news.csv
+Checked null values using Pandas
+Removed missing records using dropna()
+Result
+Dataset cleaned successfully
+Cleaned dataset stored as cleaned_news.csv

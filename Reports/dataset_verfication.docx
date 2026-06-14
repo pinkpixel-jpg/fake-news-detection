@@ -1,0 +1,8 @@
+Dataset Verification
+Successfully loaded Fake.csv and True.csv using Pandas.
+Verified dataset structure and columns.
+Confirmed features:
+title
+text
+subject
+date
